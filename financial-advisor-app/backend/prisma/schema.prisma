@@ -1,0 +1,62 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+model User {
+  id                 String   @id @default(cuid())
+  email              String   @unique
+  password           String
+  age                Int?
+  monthlyIncome      Float?   @map("monthly_income")
+  monthlyExpenses    Float?   @map("monthly_expenses")
+  monthlyInvestment  Float?   @map("monthly_investment")
+  profession         String?
+  goals              Json? // Array of strings
+  riskAppetite       String?  @map("risk_appetite")
+  investmentHorizon  String?  @map("investment_horizon")
+  usageReason        String?  @map("usage_reason")
+  professionalStatus String?  @map("professional_status")
+  createdAt          DateTime @default(now()) @map("created_at")
+
+  investmentRecommendations InvestmentRecommendation[]
+
+  @@map("users")
+}
+
+model InvestmentRecommendation {
+  id     String @id @default(cuid())
+  userId String @map("user_id")
+
+  // Stored inputs at time of calculation
+  goals             Json // Array of strings
+  riskAppetite      String @map("risk_appetite")
+  investmentHorizon String @map("investment_horizon")
+  strategyType      String @map("strategy_type")
+
+  // Calculated percentages
+  equityPercentage   Float @map("equity_percentage")
+  debtPercentage     Float @map("debt_percentage")
+  largeCapPercentage Float @map("large_cap_percentage")
+  midCapPercentage   Float @map("mid_cap_percentage")
+  smallCapPercentage Float @map("small_cap_percentage")
+
+  // Amounts
+  emergencyFundAmount Float @map("emergency_fund_amount")
+  monthlySIPAmount    Float @map("monthly_sip_amount")
+
+  // Additional details
+  riskLevel            String @map("risk_level")
+  goalWiseSplit        Json   @map("goal_wise_split")
+  expectedReturnRange  Json   @map("expected_return_range")
+  expectedTenYearValue Float  @map("expected_ten_year_value")
+
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("investment_recommendations")
+}
