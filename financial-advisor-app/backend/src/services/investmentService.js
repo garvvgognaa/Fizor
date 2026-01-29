@@ -27,4 +27,27 @@ class InvestmentService {
     'high': 90,
     'High': 90
   }
+    /**
+   * RULE 1: 50-30-20 Budget Rule
+   * 50% of monthly income → needs
+   * 30% → wants
+   * 20% → investments
+   */
+  static calculate50_30_20(monthlyIncome) {
+    return {
+      needsAmount: monthlyIncome * 0.5,
+      wantsAmount: monthlyIncome * 0.3,
+      investmentAmount: monthlyIncome * 0.2
+    }
+  }
+
+  /**
+   * RULE 2: Emergency Fund Rule
+   * Emergency fund = 6 × monthly expenses
+   * Must be calculated and stored separately
+   * Must not be included in investment amount
+   */
+  static calculateEmergencyFund(monthlyExpenses) {
+    return monthlyExpenses * 6
+  }
 }
