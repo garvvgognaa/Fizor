@@ -18,4 +18,13 @@ class InvestmentService {
     'Child education': { timeframe: '10+ years', equity: 70, debt: 30 },
     'Capital protection (low risk)': { equity: 15, debt: 85 }
   }
+
+  static RISK_LIMITS = {
+    'low': 30,
+    'Low': 30,
+    'medium': 60,
+    'Medium': 60,
+    'high': 90,
+    'High': 90
+  }
 }
