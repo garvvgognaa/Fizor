@@ -133,4 +133,57 @@ class InvestmentService {
       debtSip: Math.round(investmentAmount * (debtPercentage / 100) * 100) / 100
     }
   }
+
+  /**
+   * Calculate Large Cap / Mid Cap / Small Cap breakdown
+   * Based on investment horizon and risk appetite
+   */
+  static calculateEquityBreakdown(equityPercentage, investmentHorizon, riskAppetite) {
+    let largeCapWeight = 0.60  // 60% of equity
+    let midCapWeight = 0.30     // 30% of equity
+    let smallCapWeight = 0.10   // 10% of equity
+
+    // Adjust based on investment horizon
+    if (investmentHorizon === 'Short (1–3 years)') {
+      // Short term: More conservative, prefer large cap
+      largeCapWeight = 0.75
+      midCapWeight = 0.20
+      smallCapWeight = 0.05
+    } else if (investmentHorizon === 'Medium (3–7 years)') {
+      // Medium term: Balanced approach
+      largeCapWeight = 0.60
+      midCapWeight = 0.30
+      smallCapWeight = 0.10
+    } else if (investmentHorizon === 'Long (7–10+ years)') {
+      // Long term: Can take more risk with mid/small caps
+      largeCapWeight = 0.50
+      midCapWeight = 0.35
+      smallCapWeight = 0.15
+    }
+
+    // Further adjust based on risk appetite
+    if (riskAppetite.toLowerCase() === 'high') {
+      // High risk: Increase mid and small cap exposure
+      smallCapWeight += 0.05
+      midCapWeight += 0.05
+      largeCapWeight -= 0.10
+    } else if (riskAppetite.toLowerCase() === 'low') {
+      // Low risk: Increase large cap exposure
+      largeCapWeight += 0.10
+      midCapWeight -= 0.05
+      smallCapWeight -= 0.05
+    }
+
+    // Ensure they sum to 1
+    const totalWeight = largeCapWeight + midCapWeight + smallCapWeight
+    largeCapWeight /= totalWeight
+    midCapWeight /= totalWeight
+    smallCapWeight /= totalWeight
+
+    return {
+      largeCapPercentage: Math.round(equityPercentage * largeCapWeight * 100) / 100,
+      midCapPercentage: Math.round(equityPercentage * midCapWeight * 100) / 100,
+      smallCapPercentage: Math.round(equityPercentage * smallCapWeight * 100) / 100
+    }
+  }
 }
