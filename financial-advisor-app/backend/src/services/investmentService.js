@@ -119,5 +119,18 @@ class InvestmentService {
       debtPercentage: Math.round(debtPercentage * 100) / 100
     }
   }
-
+  
+  /**
+   * RULE 6: SIP Calculation Rule
+   * - Monthly SIP = investment portion of income
+   * - SIP must be split according to final equity/debt allocation
+   * - Returns: total SIP, equity SIP, debt SIP
+   */
+  static calculateSIP(investmentAmount, equityPercentage, debtPercentage) {
+    return {
+      monthlySip: Math.round(investmentAmount * 100) / 100,
+      equitySip: Math.round(investmentAmount * (equityPercentage / 100) * 100) / 100,
+      debtSip: Math.round(investmentAmount * (debtPercentage / 100) * 100) / 100
+    }
+  }
 }
