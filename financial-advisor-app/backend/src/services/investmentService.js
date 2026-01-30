@@ -392,4 +392,27 @@ class InvestmentService {
 
     return suggestions
   }
+    /**
+   * Legacy method for goal-wise split
+   */
+  static getGoalWiseSplit(monthlyInvestment, goals) {
+    if (goals.length === 0) return { "General Savings": monthlyInvestment }
+
+    const splitAmount = Math.round(monthlyInvestment / goals.length)
+    const split = {}
+    goals.forEach(goal => {
+      split[goal] = splitAmount
+    })
+    return split
+  }
+
+  /**
+   * Legacy method for expected returns
+   */
+  static getExpectedReturns() {
+    return {
+      equity: "10–12%",
+      debt: "6–7%"
+    }
+  }
 }
