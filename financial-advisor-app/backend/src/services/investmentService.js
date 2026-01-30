@@ -259,4 +259,16 @@ class InvestmentService {
       debtSIPAmount: debtSIP
     }
   }
+    static getBudgetSplit(monthlyIncome) {
+    const result = this.calculate50_30_20(monthlyIncome)
+    return {
+      needs: result.needsAmount,
+      wants: result.wantsAmount,
+      investments: result.investmentAmount
+    }
+  }
+
+  static checkEmergencyFund(monthlyExpenses) {
+    return this.calculateEmergencyFund(monthlyExpenses)
+  }
 }
