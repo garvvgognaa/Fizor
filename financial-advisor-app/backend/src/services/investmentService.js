@@ -415,4 +415,22 @@ class InvestmentService {
       debt: "6–7%"
     }
   }
+    /**
+   * Legacy method for expected value calculation
+   */
+  static calculateExpectedValue(monthlyInvestment, equityPercentage, debtPercentage, years = 10) {
+    // Assume average returns: Equity 12%, Debt 7%
+    const equityReturn = 0.12
+    const debtReturn = 0.07
+    const avgReturn = (equityPercentage * equityReturn + debtPercentage * debtReturn) / 100
+    const monthlyReturn = avgReturn / 12
+
+    const months = years * 12
+    // FV = P * [((1 + r)^n - 1) / r] * (1 + r)
+    const expectedValue = monthlyInvestment * ((Math.pow(1 + monthlyReturn, months) - 1) / monthlyReturn) * (1 + monthlyReturn)
+
+    return Math.round(expectedValue)
+  }
 }
+
+module.exports = InvestmentService
