@@ -271,4 +271,125 @@ class InvestmentService {
   static checkEmergencyFund(monthlyExpenses) {
     return this.calculateEmergencyFund(monthlyExpenses)
   }
+    /**
+   * Legacy optimization suggestions
+   * Kept for existing dashboard functionality
+   */
+  static getOptimizationSuggestions(params) {
+    const {
+      monthlyIncome,
+      monthlyExpenses,
+      monthlyInvestment,
+      emergencyFundAmount,
+      currentSavings = 0,
+      professionalStatus,
+      riskAppetite,
+      equityPercentage
+    } = params
+
+    const suggestions = []
+
+    // Calculate savings
+    const monthlySavings = monthlyIncome - monthlyExpenses - monthlyInvestment
+    const investmentPercentage = (monthlyInvestment / monthlyIncome) * 100
+    const expensePercentage = (monthlyExpenses / monthlyIncome) * 100
+
+    // Rule 1: Emergency Fund Check
+    const requiredEmergencyFund = emergencyFundAmount
+    if (currentSavings < requiredEmergencyFund) {
+      suggestions.push({
+        type: 'emergency_fund',
+        priority: 'high',
+        title: 'Build Your Emergency Fund',
+        description: `You should have ₹${Math.round(requiredEmergencyFund).toLocaleString('en-IN')} (6 months of expenses) as emergency fund. Consider allocating some of your monthly savings towards this goal first.`
+      })
+    }
+
+    // Rule 2: Investment Percentage Check
+    if (investmentPercentage < 20) {
+      const recommendedInvestment = monthlyIncome * 0.20
+      const additionalNeeded = recommendedInvestment - monthlyInvestment
+      suggestions.push({
+        type: 'increase_investment',
+        priority: 'medium',
+        title: 'Increase Your Investment Rate',
+        description: `You're investing ${investmentPercentage.toFixed(1)}% of your income. Try to increase it to 20% (₹${Math.round(recommendedInvestment).toLocaleString('en-IN')}) by adding ₹${Math.round(additionalNeeded).toLocaleString('en-IN')} more per month.`
+      })
+    }
+
+    // Rule 3: Expense Ratio Check
+    if (expensePercentage > 50) {
+      const targetExpenses = monthlyIncome * 0.50
+      const reductionNeeded = monthlyExpenses - targetExpenses
+      suggestions.push({
+        type: 'reduce_expenses',
+        priority: 'high',
+        title: 'Optimize Your Expenses',
+        description: `Your expenses are ${expensePercentage.toFixed(1)}% of income (ideally ≤50%). Consider reducing monthly expenses by ₹${Math.round(reductionNeeded).toLocaleString('en-IN')} to improve your financial health.`
+      })
+    }
+
+    // Rule 4: Risk-Allocation Mismatch
+    if (riskAppetite === 'High' && equityPercentage < 60) {
+      suggestions.push({
+        type: 'rebalance_portfolio',
+        priority: 'medium',
+        title: 'Portfolio Rebalancing Opportunity',
+        description: `You have high risk appetite but only ${equityPercentage.toFixed(1)}% equity allocation. Consider rebalancing to increase equity exposure for better long-term growth.`
+      })
+    } else if (riskAppetite === 'Low' && equityPercentage > 40) {
+      suggestions.push({
+        type: 'rebalance_portfolio',
+        priority: 'medium',
+        title: 'Portfolio Rebalancing Opportunity',
+        description: `You have low risk appetite but ${equityPercentage.toFixed(1)}% equity allocation. Consider increasing debt allocation for more stability.`
+      })
+    }
+
+    // Rule 5: Professional Status-Specific Suggestions
+    if (professionalStatus === 'Student') {
+      suggestions.push({
+        type: 'learning',
+        priority: 'low',
+        title: 'Start Your Investment Journey',
+        description: 'As a student, focus on learning about investments. Start with small SIPs to build the habit. Even ₹500/month can compound significantly over time.'
+      })
+    } else if (professionalStatus === 'Working Professional') {
+      suggestions.push({
+        type: 'tax_optimization',
+        priority: 'medium',
+        title: 'Maximize Tax Benefits',
+        description: 'Ensure you\'re utilizing Section 80C (₹1.5L) and NPS (additional ₹50k) for tax-saving investments. This reduces your tax burden while building wealth.'
+      })
+    } else if (professionalStatus === 'Retired') {
+      suggestions.push({
+        type: 'income_stability',
+        priority: 'high',
+        title: 'Focus on Stable Income',
+        description: 'Consider increasing debt fund allocation for regular, stable returns. Look into Monthly Income Plans (MIPs) and Senior Citizen Savings Schemes.'
+      })
+    }
+
+    // Rule 6: Positive Reinforcement (if doing well)
+    if (investmentPercentage >= 20 && expensePercentage <= 50 && monthlySavings >= 0) {
+      suggestions.push({
+        type: 'positive',
+        priority: 'low',
+        title: 'Great Financial Discipline!',
+        description: "You're following the 50-30-20 rule well. Keep up this disciplined approach to achieve your financial goals faster."
+      })
+    }
+
+    // Rule 7: High Savings Alert
+    if (monthlySavings > monthlyInvestment && monthlySavings > monthlyIncome * 0.1) {
+      suggestions.push({
+        type: 'deploy_surplus',
+        priority: 'medium',
+        title: 'Deploy Idle Savings',
+        description: `You have ₹${Math.round(monthlySavings).toLocaleString('en-IN')} in surplus savings each month. Consider increasing your monthly SIP to put this money to work.`
+      })
+    }
+
+    return suggestions
+  }
 }
