@@ -186,4 +186,77 @@ class InvestmentService {
       smallCapPercentage: Math.round(equityPercentage * smallCapWeight * 100) / 100
     }
   }
+    /**
+   * Main calculation orchestrator
+   * Applies all 6 rules in sequence and returns complete recommendation
+   */
+  static calculateInvestmentRecommendation(params) {
+    const {
+      age,
+      monthlyIncome,
+      monthlyExpenses,
+      riskAppetite,
+      goals = [],
+      investmentHorizon = 'Long (7–10+ years)'
+    } = params
+
+    // RULE 1: Calculate 50-30-20 budget split
+    const budgetSplit = this.calculate50_30_20(monthlyIncome)
+
+    // RULE 2: Calculate emergency fund
+    const emergencyFund = this.calculateEmergencyFund(monthlyExpenses)
+
+    // RULE 3 + 4 + 5: Calculate equity/debt allocation
+    const allocation = this.calculateAllocation(age, riskAppetite, goals)
+
+    // Calculate equity breakdown (large/mid/small cap)
+    const equityBreakdown = this.calculateEquityBreakdown(
+      allocation.equityPercentage,
+      investmentHorizon,
+      riskAppetite
+    )
+
+    // RULE 6: Calculate SIP split
+    const sipCalculation = this.calculateSIP(
+      budgetSplit.investmentAmount,
+      allocation.equityPercentage,
+      allocation.debtPercentage
+    )
+
+    // Calculate SIP amounts for each category
+    const largeCapSIP = Math.round((budgetSplit.investmentAmount * equityBreakdown.largeCapPercentage) / 100)
+    const midCapSIP = Math.round((budgetSplit.investmentAmount * equityBreakdown.midCapPercentage) / 100)
+    const smallCapSIP = Math.round((budgetSplit.investmentAmount * equityBreakdown.smallCapPercentage) / 100)
+    const debtSIP = Math.round(sipCalculation.debtSip)
+
+    return {
+      // Rule 1 outputs
+      needsAmount: budgetSplit.needsAmount,
+      wantsAmount: budgetSplit.wantsAmount,
+      investmentAmount: budgetSplit.investmentAmount,
+
+      // Rule 2 output
+      emergencyFund: emergencyFund,
+
+      // Rule 3+4+5 outputs
+      equityPercentage: allocation.equityPercentage,
+      debtPercentage: allocation.debtPercentage,
+
+      // Equity breakdown
+      largeCapPercentage: equityBreakdown.largeCapPercentage,
+      midCapPercentage: equityBreakdown.midCapPercentage,
+      smallCapPercentage: equityBreakdown.smallCapPercentage,
+
+      // Rule 6 outputs
+      monthlySip: sipCalculation.monthlySip,
+      equitySip: sipCalculation.equitySip,
+      debtSip: sipCalculation.debtSip,
+
+      // SIP breakdown by category
+      largeCapSIP: largeCapSIP,
+      midCapSIP: midCapSIP,
+      smallCapSIP: smallCapSIP,
+      debtSIPAmount: debtSIP
+    }
+  }
 }
