@@ -31,3 +31,19 @@ const registerValidation = [
     .isFloat({ min: 0 })
     .withMessage('Monthly investment must be a positive number'),
 ]
+// Login validation rules
+const loginValidation = [
+  body('email')
+    .isEmail()
+    .normalizeEmail()
+    .withMessage('Please provide a valid email'),
+  body('password')
+    .notEmpty()
+    .withMessage('Password is required')
+]
+
+// Routes
+router.post('/register', registerValidation, handleValidationErrors, AuthController.register)
+router.post('/login', loginValidation, handleValidationErrors, AuthController.login)
+
+module.exports = router
