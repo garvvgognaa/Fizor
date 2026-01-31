@@ -64,4 +64,39 @@ class ProfileService {
       latestRecommendation
     }
   }
+  static async generateInvestmentRecommendation(userId) {
+    // Get user and salary profile
+    const user = await prisma.user.findUnique({
+      where: { id: userId }
+    })
+    
+    const salaryProfile = await prisma.salaryProfile.findFirst({
+      where: { userId },
+      orderBy: { createdAt: 'desc' }
+    })
+    
+    if (!salaryProfile) {
+      throw new Error('Salary profile not found. Please create a salary profile first.')
+    }
+    
+    // Calculate investment recommendation
+    const recommendation = InvestmentService.calculateInvestmentRecommendation(
+      salaryProfile.monthlyIncome,
+      salaryProfile.monthlyExpenses,
+      salaryProfile.age,
+      user.role
+    )
+    
+    // Save recommendation to database
+    const savedRecommendation = await prisma.investmentRecommendation.create({
+      data: {
+        userId,
+        ...recommendation
+      }
+    })
+    
+    return savedRecommendation
+  }
 }
+
+module.exports = ProfileService
