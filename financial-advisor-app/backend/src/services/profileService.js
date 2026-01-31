@@ -36,4 +36,32 @@ class ProfileService {
     
     return salaryProfile
   }
+    static async getUserProfile(userId) {
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        role: true,
+        createdAt: true
+      }
+    })
+    
+    const salaryProfile = await prisma.salaryProfile.findFirst({
+      where: { userId },
+      orderBy: { createdAt: 'desc' }
+    })
+    
+    const latestRecommendation = await prisma.investmentRecommendation.findFirst({
+      where: { userId },
+      orderBy: { createdAt: 'desc' }
+    })
+    
+    return {
+      user,
+      salaryProfile,
+      latestRecommendation
+    }
+  }
 }
