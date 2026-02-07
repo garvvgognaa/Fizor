@@ -1,0 +1,35 @@
+.salary-input {
+    padding: 40px 0;
+}
+
+.form-content {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.salary-form {
+    background: var(--secondary-white);
+    padding: 40px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    text-align: left;
+    margin-top: 40px;
+}
+
+.form-actions {
+    display: flex;
+    gap: 16px;
+    justify-content: space-between;
+    margin-top: 32px;
+}
+
+@media (max-width: 768px) {
+    .salary-form {
+        padding: 24px;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+}
