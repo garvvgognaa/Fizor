@@ -1,0 +1,143 @@
+.investment-result {
+    padding: 40px 0;
+}
+
+.results-content {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.financial-overview {
+    background: var(--secondary-white);
+    padding: 30px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    margin-bottom: 40px;
+}
+
+.overview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 24px;
+}
+
+.overview-item {
+    text-align: center;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: var(--border-radius);
+}
+
+.overview-label {
+    display: block;
+    font-size: 14px;
+    color: var(--text-light);
+    margin-bottom: 8px;
+}
+
+.overview-value {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.overview-value.income {
+    color: var(--primary-green);
+}
+
+.overview-value.expense {
+    color: #dc3545;
+}
+
+.overview-value.surplus {
+    color: var(--primary-green);
+}
+
+.overview-value.deficit {
+    color: #dc3545;
+}
+
+.overview-value.rate {
+    color: var(--accent-light-blue);
+}
+
+.recommendations-section {
+    margin-bottom: 40px;
+}
+
+.section-title {
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 24px;
+    text-align: center;
+}
+
+.recommendations-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+}
+
+.deficit-section {
+    margin-bottom: 40px;
+}
+
+.deficit-card {
+    background: #fff3cd;
+    border: 1px solid #ffeaa7;
+    border-radius: var(--border-radius);
+    padding: 30px;
+    text-align: center;
+}
+
+.deficit-card h2 {
+    color: #856404;
+    margin-bottom: 16px;
+}
+
+.deficit-card p {
+    font-size: 18px;
+    color: #856404;
+    margin-bottom: 24px;
+}
+
+.deficit-suggestions {
+    text-align: left;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.deficit-suggestions h3 {
+    color: #856404;
+    margin-bottom: 12px;
+}
+
+.deficit-suggestions ul {
+    color: #856404;
+}
+
+.deficit-suggestions li {
+    margin-bottom: 8px;
+}
+
+.result-actions {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    margin-top: 40px;
+}
+
+@media (max-width: 768px) {
+    .overview-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .recommendations-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .result-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+}
