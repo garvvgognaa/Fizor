@@ -1,0 +1,22 @@
+.footer {
+    background: var(--gradient-primary);
+    color: var(--white);
+    padding: 48px 0;
+    margin-top: auto;
+    box-shadow: 0 -4px 12px rgba(16, 185, 129, 0.1);
+}
+
+.footer-content {
+    text-align: center;
+}
+
+.footer-content p {
+    margin-bottom: 10px;
+    font-size: 15px;
+}
+
+.footer-content p:last-child {
+    margin-bottom: 0;
+    opacity: 0.9;
+    font-size: 14px;
+}
