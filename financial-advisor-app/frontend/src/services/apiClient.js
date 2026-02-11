@@ -1,8 +1,10 @@
 import axios from 'axios'
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000/api'
+let API_BASE_URL = import.meta.env.VITE_API_URL || 'https://fizor.onrender.com/api'
 
-// Create axios instance with default configuration
+if (API_BASE_URL && !API_BASE_URL.endsWith('/api')) {
+    API_BASE_URL = `${API_BASE_URL.replace(/\/$/, '')}/api`
+}
 const apiClient = axios.create({
     baseURL: API_BASE_URL,
     headers: {
@@ -11,7 +13,6 @@ const apiClient = axios.create({
     timeout: 10000, // 10 seconds
 })
 
-// Request interceptor to add JWT token to requests
 apiClient.interceptors.request.use(
     (config) => {
         const token = localStorage.getItem('authToken')
@@ -25,13 +26,11 @@ apiClient.interceptors.request.use(
     }
 )
 
-// Response interceptor for error handling
 apiClient.interceptors.response.use(
     (response) => {
         return response
     },
     (error) => {
-        // Handle common errors
         if (error.response) {
             // Server responded with error status
             const { status, data } = error.response

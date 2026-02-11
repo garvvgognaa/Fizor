@@ -1,6 +1,10 @@
 import axios from 'axios'
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000/api'
+let API_BASE_URL = import.meta.env.VITE_API_URL || 'https://fizor.onrender.com/api'
+
+if (API_BASE_URL && !API_BASE_URL.endsWith('/api')) {
+  API_BASE_URL = `${API_BASE_URL.replace(/\/$/, '')}/api`
+}
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -8,8 +12,6 @@ const api = axios.create({
     'Content-Type': 'application/json',
   },
 })
-
-// Request interceptor to add auth token
 api.interceptors.request.use(
   (config) => {
     const user = JSON.parse(localStorage.getItem('user') || '{}')
@@ -23,7 +25,6 @@ api.interceptors.request.use(
   }
 )
 
-// Response interceptor to handle errors
 api.interceptors.response.use(
   (response) => response,
   (error) => {
