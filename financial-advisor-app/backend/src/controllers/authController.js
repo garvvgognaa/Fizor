@@ -4,12 +4,14 @@ const { sendSuccess, sendError } = require('../utils/response')
 class AuthController {
   static async register(req, res) {
     try {
-      const { email, password, age, monthlyIncome, monthlyExpenses, monthlyInvestment, profession } = req.body
+      const { email, password, name, role, age, monthlyIncome, monthlyExpenses, monthlyInvestment, profession } = req.body
       console.log('📝 Registration attempt:', { email })
 
       const result = await UserService.createUser({
         email,
         password,
+        name,
+        role,
         age,
         monthlyIncome,
         monthlyExpenses,

@@ -4,7 +4,7 @@ const { generateToken } = require('../utils/jwt')
 
 class UserService {
   static async createUser(userData) {
-    const { email, password, age, monthlyIncome, monthlyExpenses, monthlyInvestment, profession } = userData
+    const { email, password, name, role, age, monthlyIncome, monthlyExpenses, monthlyInvestment, profession } = userData
 
     // Check if user already exists
     const existingUser = await prisma.user.findUnique({
@@ -23,6 +23,8 @@ class UserService {
       data: {
         email,
         password: hashedPassword,
+        name,
+        professionalStatus: role,
         age: age ? parseInt(age) : null,
         monthlyIncome: monthlyIncome ? parseFloat(monthlyIncome) : null,
         monthlyExpenses: monthlyExpenses ? parseFloat(monthlyExpenses) : null,
@@ -32,6 +34,7 @@ class UserService {
       select: {
         id: true,
         email: true,
+        name: true,
         age: true,
         monthlyIncome: true,
         monthlyExpenses: true,

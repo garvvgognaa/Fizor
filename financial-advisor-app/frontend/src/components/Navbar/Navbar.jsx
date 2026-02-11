@@ -28,7 +28,7 @@ function Navbar() {
                 <Link to="/profile" className="nav-link">
                   Create Plan
                 </Link>
-                <span className="user-email">{user.email}</span>
+                <span className="user-email">{user.name || user.email}</span>
                 <button onClick={handleLogout} className="btn btn-outline">
                   Logout
                 </button>
