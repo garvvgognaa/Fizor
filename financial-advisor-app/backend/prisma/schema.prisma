@@ -12,7 +12,8 @@ model User {
   id                 String   @id @default(cuid())
   email              String   @unique
   password           String
-  name               String?
+  name               String
+  role               String?  // student or professional
   age                Int?
   monthlyIncome      Float?   @map("monthly_income")
   monthlyExpenses    Float?   @map("monthly_expenses")

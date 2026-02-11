@@ -10,7 +10,15 @@ app.use(helmet())
 
 // CORS configuration
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'https://fiizor.vercel.app',
+  origin: function (origin, callback) {
+    const allowedOrigins = (process.env.FRONTEND_URL || 'https://fiizor.vercel.app').split(',').map(url => url.trim())
+    // Allow requests with no origin (like mobile apps, curl, or Postman)
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  },
   credentials: true
 }))
 

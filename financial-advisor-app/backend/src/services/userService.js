@@ -82,6 +82,7 @@ class UserService {
       select: {
         id: true,
         email: true,
+        name: true,
         age: true,
         monthlyIncome: true,
         monthlyExpenses: true,
@@ -102,6 +103,7 @@ class UserService {
       select: {
         id: true,
         email: true,
+        name: true,
         age: true,
         monthlyIncome: true,
         monthlyExpenses: true,
