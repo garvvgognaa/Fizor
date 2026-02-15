@@ -79,6 +79,11 @@
     animation: fadeInUp 0.8s ease-out 0.4s backwards;
 }
 
+.hero-actions.stacked {
+    flex-direction: column;
+    align-items: center;
+}
+
 .features-section,
 .how-it-works-section {
     padding: 100px 20px;

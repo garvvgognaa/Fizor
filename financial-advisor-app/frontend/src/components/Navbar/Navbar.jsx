@@ -16,7 +16,7 @@ function Navbar() {
       <div className="container">
         <div className="navbar-content">
           <Link to="/" className="navbar-brand">
-            💰 Fizor
+            Fizor
           </Link>
 
           <div className="navbar-menu">

@@ -28,7 +28,7 @@ function Home() {
               expenses, and financial goals. Our goal-based strategy engine creates
               a customized plan tailored to your risk appetite and investment horizon.
             </p>
-            <div className="hero-actions">
+            <div className={`hero-actions ${user ? 'stacked' : ''}`}>
               <Button size="large" onClick={handleGetStarted}>
                 {user ? 'Create Your Plan' : 'Get Started'}
               </Button>
@@ -50,32 +50,26 @@ function Home() {
           <h2 className="section-title">Why Choose Our Financial Advisor?</h2>
           <div className="features-grid">
             <div className="feature-card">
-              <div className="feature-icon">📊</div>
               <h3>Goal-Based Planning</h3>
               <p>Select from 11 life goals including house, car, education, retirement, and wealth creation.</p>
             </div>
             <div className="feature-card">
-              <div className="feature-icon">🎯</div>
               <h3>Personalized Strategy</h3>
               <p>Get one of 6 investment strategies tailored to your risk profile and financial goals.</p>
             </div>
             <div className="feature-card">
-              <div className="feature-icon">💰</div>
               <h3>Smart Allocation</h3>
               <p>Automatic asset allocation across Large Cap, Mid Cap, Small Cap, and Debt funds.</p>
             </div>
             <div className="feature-card">
-              <div className="feature-icon">📈</div>
               <h3>10-Year Projection</h3>
               <p>See your expected portfolio value after 10 years with realistic return estimates.</p>
             </div>
             <div className="feature-card">
-              <div className="feature-icon">🛡️</div>
               <h3>Emergency Fund Calc</h3>
               <p>Automatic calculation of 6-month emergency fund based on your expenses.</p>
             </div>
             <div className="feature-card">
-              <div className="feature-icon">🔒</div>
               <h3>Secure & Private</h3>
               <p>Your financial data is protected with JWT authentication and encrypted storage.</p>
             </div>
